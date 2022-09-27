@@ -18,7 +18,7 @@ class Image(models.Model):
     url = models.URLField(max_length=2000)
     image = models.ImageField(upload_to='images/%Y/%m/%d/')
     description = models.TextField(blank=True)
-    created = models.DateField(auto_now_add=True)
+    created = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         indexes = [
