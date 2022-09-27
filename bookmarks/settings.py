@@ -9,23 +9,33 @@ https://docs.djangoproject.com/en/4.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
-
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
+import environ
+
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+env = environ.Env(
+    # set casting, default value
+    DEBUG=(bool, False)
+)
+
+# Take environment variables from .env file
+environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-_my0g@6-d=2wg-&e+=!zfczw28iqs)94q+3ai*m7v@^5k7s42e'
+SECRET_KEY = env("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
 
-ALLOWED_HOSTS = ['dev.ahmedsamy.me', 'localhost', '127.0.0.1']
+DEBUG = env('DEBUG')
 
+ALLOWED_HOSTS = env("DJANGO_ALLOWED_HOSTS").split(" ")
 # Application definition
 
 INSTALLED_APPS = [
@@ -125,9 +135,18 @@ LOGIN_REDIRECT_URL = 'dashboard'
 LOGIN_URL = 'login'
 LOGOUT_URL = 'logout'
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_BACKEND = env('EMAIL_BACKEND')
 
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
     'account.authentication.EmailAuthBackend',
+    'social_core.backends.facebook.FacebookOAuth2',
+
 ]
+
+# SOCIAL AUTHENTICATION
+# FACEBOOK
+SOCIAL_AUTH_FACEBOOK_KEY = env('SOCIAL_AUTH_FACEBOOK_KEY') # Facebook App ID
+SOCIAL_AUTH_FACEBOOK_SECRET = env('SOCIAL_AUTH_FACEBOOK_SECRET') # Facebook App Secret
+SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
+
