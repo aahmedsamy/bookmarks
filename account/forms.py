@@ -1,4 +1,5 @@
 from django import forms
+from django.conf import settings
 from django.contrib.auth.models import User
 
 from account.models import Profile
@@ -25,6 +26,13 @@ class UserRegistrationForm(forms.ModelForm):
         if User.objects.filter(email=data).exists():
             raise forms.ValidationError('Email already in use.')
         return data
+
+    def clean_username(self):
+        username = self.cleaned_data['username']
+        if username in settings.NOT_ALLOWED_USERNAMES:
+            raise forms.ValidationError(f'"{username}" username is not allowed!')
+        return username
+
 
 
 class UserEditForm(forms.ModelForm):

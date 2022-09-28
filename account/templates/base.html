@@ -1,6 +1,6 @@
 {% load static %}
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <title>{% block title %}{% endblock %}</title>
     <link href="{% static "css/base.css" %}" rel="stylesheet">
@@ -49,9 +49,9 @@
     const csrftoken = Cookies.get('csrftoken');
     document.addEventListener('DOMContentLoaded', (event) => {
 // DOM loaded
-    {% block domready %}
-    {% endblock %}
-})
+        {% block domready %}
+        {% endblock %}
+    })
 </script>
 </body>
 </html>

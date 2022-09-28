@@ -14,6 +14,7 @@ from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 import environ
+from django.urls import reverse_lazy
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -168,3 +169,11 @@ SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
 # GOOGLE
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = env('SOCIAL_AUTH_GOOGLE_OAUTH2_KEY')  # Google Client ID
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = env('SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET')  # Google Client Secret
+
+# ABSOLUTE URL OVERRIDES
+ABSOLUTE_URL_OVERRIDES = {
+    'auth.user': lambda u: reverse_lazy('user_detail',
+                                        args=[u.username])
+}
+# NOT ALLOWED USERNAMES
+NOT_ALLOWED_USERNAMES = ['follow']
