@@ -11,7 +11,7 @@ class Image(models.Model):
     users_like = models.ManyToManyField(settings.AUTH_USER_MODEL,
                                         related_name='images_liked',
                                         blank=True)
-
+    total_likes = models.PositiveIntegerField(default=0)
     title = models.CharField(max_length=200)
     slug = models.SlugField(max_length=200,
                             blank=True)
@@ -23,6 +23,7 @@ class Image(models.Model):
     class Meta:
         indexes = [
             models.Index(fields=['-created']),
+            models.Index(fields=['-total_likes']),
         ]
         ordering = ['-created']
 

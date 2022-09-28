@@ -8,6 +8,7 @@ class Profile(models.Model):
                                 on_delete=models.CASCADE)
     date_of_birth = models.DateField(blank=True, null=True)
     photo = models.ImageField(upload_to='users/%Y/%m/%d/',
+                              default='users/profile_pic.png',
                               blank=True)
 
     def __str__(self):
